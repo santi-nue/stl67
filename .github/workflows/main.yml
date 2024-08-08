@@ -44,7 +44,7 @@ jobs:
         git clone https://github.com/lime7git/micromouse.git
         cd micromouse
         cd micromouse-maze-simulator
-        qmake -o Makefile micromouse-maze-simulator.pro
+        qmake6 -o Makefile micromouse-maze-simulator.pro
         make
     
         
