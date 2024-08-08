@@ -1,0 +1,57 @@
+name: Build
+
+on: push
+
+env:
+  BUILD_TYPE: Release
+  
+jobs:
+  windows:
+    runs-on: windows-latest
+    name: Windows
+    defaults:
+      run:
+        shell: msys2 {0}
+  
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+
+    
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: false
+        install: >-
+          autoconf
+          automake
+          git
+          make
+        pacboy: >-
+          qt6-base:p
+          qt6-tools:p
+          
+        
+        
+    
+      
+    - name: Clone mms and build 
+      working-directory: ${{ runner.temp }}
+      run: |
+        git clone https://github.com/lime7git/micromouse.git
+        cd micromouse
+        cd micromouse-maze-simulator
+        qmake -o Makefile micromouse-maze-simulator.pro
+        make
+    
+        
+    - name: upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: result
+          path:  D:/a/_temp/micromouse/micromouse-maze-simulator
+        
+          
